@@ -16,8 +16,11 @@ class StockCategoryController extends Controller
      */
     public function index()
     {
+
+        //retrieve all records
         $stock_categories = StockCategory::all();
 
+        //then display using the Index view
         return Inertia::render('StockCategories/Index',
             ['stock_categories' => $stock_categories]);
     }
@@ -29,6 +32,7 @@ class StockCategoryController extends Controller
      */
     public function create()
     {
+        //display a blank form
         return Inertia::render('StockCategories/Create');
     }
 
@@ -51,6 +55,8 @@ class StockCategoryController extends Controller
             ]
 
         );
+        //if everything is ok then the next line of codes will be executed
+        //otherwise it will return an object called <<errors> that can be  
 
         $model = new StockCategory();
         $model->id = $request->id;
@@ -126,6 +132,8 @@ class StockCategoryController extends Controller
      */
     public function destroy($id)
     {
+
+        //use try since an error migth occur
        try{
         StockCategory::find($id)->delete();
         return Redirect::route('sc.index')->with('success', 'Stock Category deleted.');
