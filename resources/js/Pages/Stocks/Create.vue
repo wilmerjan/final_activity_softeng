@@ -3,7 +3,7 @@
         <Layout>
             <div class="flex justify-center w-full">
                 <div class="bg-white flex flex-col w-1/3 mt-20 p-6">
-                    <h2 class="text-lg">Stock Category Form</h2>
+                    <h2 class="text-lg">Stock Form</h2>
                     <form
                         id="stock-form"
                         name="stock-form"
@@ -37,30 +37,56 @@
                                 {{ errors.description }}
                             </div>
                         </div>
-
+ 
                         <div class="flex flex-col pt-6">
-                            <label for="type">Type</label>
-                            <select name="type" id="type" v-model="form.type">
-                                <option value="F">Finished Goods</option>
-                                <option value="R">Raw Materials</option>
-                                <option value="D">Dummy</option>
+                            <label for="scid">Stock Category Id</label>
+                            <select name="stock_category_id" id="stock_category_id" v-model="form.stock_category_id">
+                                <option value="10002">10002</option>
+                                <option value="1001">1001</option>
+                                <option value="1003">1003</option>
                             </select>
 
                             <div class="text-red-700 text-sm">
-                                {{ errors.type }}
+                                {{ errors.stock_category_id }}
                             </div>
                         </div>
 
                         <div class="flex flex-col pt-6">
-                            <label for="stock-account">Stock Account</label>
+                            <label for="uom">Uom</label>
                             <input
                                 type="text"
-                                id="stock-account"
-                                name="stock-account"
-                                v-model="form.stock_account"
+                                id="uom"
+                                name="uom"
+                                v-model="form.uom"
                             />
                             <div class="text-red-700 text-sm">
-                                {{ errors.stock_account }}
+                                {{ errors.uom }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col pt-6">
+                            <label for="uom">Barcode</label>
+                            <input
+                                type="text"
+                                id="barcode"
+                                name="barcode"
+                                v-model="form.barcode"
+                            />
+                            <div class="text-red-700 text-sm">
+                                {{ errors.barcode }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col pt-6">
+                            <label for="discontinued">Discontinued</label>
+                            <input
+                                type="text"
+                                id="discontinued"
+                                name="discontinued"
+                                v-model="form.discontinued"
+                            />
+                            <div class="text-red-700 text-sm">
+                                {{ errors.discontinued }}
                             </div>
                         </div>
 
@@ -83,32 +109,41 @@
 import { ref, reactive } from "vue";
 import Layout from "@/Layouts/Authenticated";
 import { Inertia } from "@inertiajs/inertia";
+
 export default {
     components: {
         Layout,
     },
+
     props: {
         errors: Object,
     },
+
     setup(props, context) {
         const form = reactive({
             id: null,
             description: null,
-            type: "F",
-            stock_account: null,
+            stock_category_id: null,
+            uom: null,
+            barcode: null,
+            discontinued: null,
         });
+
         const submit = () => {
-            Inertia.post(route("sc.store"), form, {
+            Inertia.post(route("stock.store"), form, {
                 onSuccess: () => {
                     // Handle success event
                     form.id = null;
                     form.description = null;
-                    form.type = "F";
-                    form.stock_account = null;
+                    form.stock_category_id = null;
+                    form.uom = null;
+                    form.barcode = null;
+                    form.discontinued = null;
                     //   this.reset();
                 },
             });
         };
+
         return {
             form,
             submit,
